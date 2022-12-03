@@ -22,3 +22,6 @@ Route::post('/admin', [\App\Http\Controllers\AdminController::class, 'store']);
 Route::delete('/admin/{id}', [\App\Http\Controllers\AdminController::class, 'delete']);
 Route::get('/admin/{id}', [\App\Http\Controllers\AdminController::class, 'show']);
 Route::put('/admin/{id}', [\App\Http\Controllers\AdminController::class, 'edit']);
+Route::post('/teacher', [\App\Http\Controllers\TeacherController::class, 'store']);
+Route::post('/course', [\App\Http\Controllers\CourseController::class, 'store']);
+Route::get('/course', [\App\Http\Controllers\CourseController::class, 'index']);
