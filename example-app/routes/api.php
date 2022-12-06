@@ -25,3 +25,5 @@ Route::put('/admin/{id}', [\App\Http\Controllers\AdminController::class, 'edit']
 Route::post('/teacher', [\App\Http\Controllers\TeacherController::class, 'store']);
 Route::post('/course', [\App\Http\Controllers\CourseController::class, 'store']);
 Route::get('/course', [\App\Http\Controllers\CourseController::class, 'index']);
+Route::get('/export', [\App\Http\Controllers\AdminController::class, 'export']);
+Route::post('/import' ,[\App\Http\Controllers\AdminController::class, 'import']);

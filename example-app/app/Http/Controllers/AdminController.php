@@ -2,29 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AdminExport;
+use App\Imports\AdminImport;
 use App\Models\Admin;
-use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use const http\Client\Curl\Features\HTTP2;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class AdminController extends Controller
 {
-    // create AdminController
     public function index(){
-        $admin = new Admin();
-
-//        DB::table('admins')->insert([
-//           'username'=>'Hung',
-//           'password'=>Hash::make('123456') ,
-//        ]);
         $user = DB::table('admins')->get();
-
         return $user;
-//        dd($user);
     }
     public function store(Request $request){
 
@@ -67,4 +58,14 @@ class AdminController extends Controller
             'data' => $user,
         ]);
     }
+    public function import(Request $request){
+        Excel::import(new AdminImport, $request->file('file')->store('import'));
+        return response()->json([
+            "message" => "Import Successfully !"
+        ]);
+    }
+    public function export(){
+        return Excel::download(new AdminExport,'test.csv');
+    }
+
 }
