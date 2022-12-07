@@ -1,41 +1,46 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laravel 9 Import Export Excel to Database Example - ItSolutionStuff.com</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-@section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-3 p-5">
-            <img class="rounded-circle" src="https://ssl.gstatic.com/onebox/media/sports/logos/4us2nCgl6kgZc0t3hpW75Q_96x96.png">
+    <div class="card bg-light mt-3">
+        <div class="card-header">
+            Le DOan Hieu
         </div>
-        <div class="col-8">
-            <div><h1>Arsenal</h1></div>
-            <div>
-                <a href="/test">Edit Profile</a>
-            </div>
-            <div class="d-flex pe-lg-3">
-                <div class="pe-4"><strong>100</strong> posts</div>
-                <div class="pe-4"><strong>100k</strong> followers</div>
-                <div class="pe-4"><strong>100k</strong> following</div>
-            </div>
-            <div class="pt-3">
-                <div>Arsenal.com</div>
-                <div>Our skipper struck twice after the restart to ensure we claimed the victory we fully deserved for a dominant display at Molineux, which means we have now won three consecutive league games without conceding for the first time since July 2020</div>
-                <div><a href="Arsenal.com" style="color: red">Arsenal.com</a></div>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col-4">
-                <a href="#">
-                    <img src="https://nld.mediacdn.vn/291774122806476800/2022/8/24/arsenal-1661303494810541174633.jpeg" class="w-100">
-                </a>
-            </div>
-            <div class="col-4">
-                <img src="https://nld.mediacdn.vn/2020/8/2/cup-1-15963257701421371049489.jpg" class="w-100">
-            </div>
-            <div class="col-4">
-                <img src="https://nld.mediacdn.vn/291774122806476800/2022/8/24/arsenal-1661303494810541174633.jpeg" class="w-100">
-            </div>
-        </div>
+        <div class="card-body">
+            <form action="{{ url('api/import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="file" class="form-control">
+                <br>
+                <button class="btn btn-success">Import User Data</button>
+            </form>
 
+            <table class="table table-bordered mt-3">
+                <tr>
+                    <th colspan="3">
+                        List Of Users
+                        <a class="btn btn-warning float-end" href="/api/export">Export User Data</a>
+                    </th>
+                </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>User Name</th>
+                </tr>
+                @foreach($users as $user)
+                    <tr>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->username }}</td>
+                    </tr>
+                @endforeach
+            </table>
+
+        </div>
     </div>
 </div>
-@endsection
+
+</body>
+</html>

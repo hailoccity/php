@@ -14,8 +14,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class AdminController extends Controller
 {
     public function index(){
-        $user = DB::table('admins')->get();
-        return $user;
+        $users = DB::table('admins')->get();
+        return view("import", compact("users"));
     }
     public function store(Request $request){
 
@@ -59,10 +59,11 @@ class AdminController extends Controller
         ]);
     }
     public function import(Request $request){
-        Excel::import(new AdminImport, $request->file('file')->store('import'));
-        return response()->json([
-            "message" => "Import Successfully !"
-        ]);
+         Excel::import(new AdminImport, request()->file('file'));
+         return back();
+//        return response()->json([
+//            "message" => "Import Successfully !"
+//        ]);
     }
     public function export(){
         return Excel::download(new AdminExport,'test.csv');
