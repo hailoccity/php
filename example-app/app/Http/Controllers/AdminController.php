@@ -26,15 +26,17 @@ class AdminController extends Controller
     }
     public function delete($id){
         $user = Admin::find($id);
+//        dd($id);
         if (is_null($user)){
             return response()->json([
                 'message'=>'Not Found User',
             ]);
         }
         $user->delete();
-        return response()->json([
-            "message"=>"Deleted username {$user->username}",
-        ]);
+//        return response()->json([
+//            "message"=>"Deleted username {$user->username}",
+//        ]);
+        return redirect('/api/admin');
     }
     public function show($id){
         $user = Admin::find($id);
