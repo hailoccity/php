@@ -8,8 +8,9 @@
         </div>
         <div class="col-8">
             <div><h1>Arsenal</h1></div>
-            <div>
-                <a href="/test">Edit Profile</a>
+            <div class="d-flex">
+                <a href="/test" class="me-3">Edit Profile</a>
+                <a href="{{route('posts.index')}}">Link To Post</a>
             </div>
             <div class="d-flex pe-lg-3">
                 <div class="pe-4"><strong>100</strong> posts</div>

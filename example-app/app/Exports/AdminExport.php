@@ -13,12 +13,12 @@ class AdminExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return Admin::select("id", "username","created_at")->get();
+        return Admin::select("id", "username","phone")->get();
     }
 
     public function headings(): array
     {
         // TODO: Implement headings() method.
-        return  ["ID", "UserName"];
+        return  ["ID", "UserName", "Phone"];
     }
 }

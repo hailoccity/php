@@ -43,20 +43,22 @@
             </div>
             <table class="table table-bordered mt-4">
                 <tr>
-                    <th colspan="3">
+                    <th>
                         List Of Users
-                        <a class="btn btn-success float-end" href="/api/export">Export User Data</a>
                     </th>
+                    <th colspan="4"><a class="btn btn-success float-end" href="/api/export">Export User Data</a></th>
                 </tr>
                 <tr>
                     <th>ID</th>
                     <th>User Name</th>
+                    <th>Phone</th>
                     <th>Action</th>
                 </tr>
                 @foreach($users as $user)
                     <tr>
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->username }}</td>
+                        <td>{{$user->phone}}</td>
                         <td class="d-flex" >
                             <form action="{{url('/api/admin/'.$user->id)}}">
                                 {{method_field('delete')}}

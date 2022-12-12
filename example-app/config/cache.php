@@ -26,7 +26,7 @@ return [
     | well as their drivers. You may even define multiple stores for the
     | same cache driver to group types of items stored in your caches.
     |
-    | Supported drivers: "apc", "array", "database", "file",
+    | Supported drivers: "apc", "array", "database.sqlite", "file",
     |         "memcached", "redis", "dynamodb", "octane", "null"
     |
     */
@@ -42,8 +42,8 @@ return [
             'serialize' => false,
         ],
 
-        'database' => [
-            'driver' => 'database',
+        'database.sqlite' => [
+            'driver' => 'database.sqlite',
             'table' => 'cache',
             'connection' => null,
             'lock_connection' => null,
@@ -99,7 +99,7 @@ return [
     | Cache Key Prefix
     |--------------------------------------------------------------------------
     |
-    | When utilizing the APC, database, memcached, Redis, or DynamoDB cache
+    | When utilizing the APC, database.sqlite, memcached, Redis, or DynamoDB cache
     | stores there might be other applications using the same cache. For
     | that reason, you may prefix every cache key to avoid collisions.
     |

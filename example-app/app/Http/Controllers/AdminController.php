@@ -22,6 +22,7 @@ class AdminController extends Controller
         return Admin::create([
             'username'=> $request['username'],
             'password'=> Hash::make($request['password']),
+            'phone'=> $request['phone'],
         ]);
     }
     public function delete($id){
@@ -54,6 +55,7 @@ class AdminController extends Controller
         }
         $user->username = $request['username'];
         $user->password = Hash::make($request['password']);
+        $user->phone = $request['phone'];
         $user->save();
         return response()->json([
             'message'=> "Update Successfully",

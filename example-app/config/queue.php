@@ -24,7 +24,7 @@ return [
     | is used by your application. A default configuration has been added
     | for each back-end shipped with Laravel. You are free to add more.
     |
-    | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", "null"
+    | Drivers: "sync", "database.sqlite", "beanstalkd", "sqs", "redis", "null"
     |
     */
 
@@ -34,8 +34,8 @@ return [
             'driver' => 'sync',
         ],
 
-        'database' => [
-            'driver' => 'database',
+        'database.sqlite' => [
+            'driver' => 'database.sqlite',
             'table' => 'jobs',
             'queue' => 'default',
             'retry_after' => 90,
@@ -79,14 +79,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | These options configure the behavior of failed queue job logging so you
-    | can control which database and table are used to store the jobs that
-    | have failed. You may change them to any database / table you wish.
+    | can control which database.sqlite and table are used to store the jobs that
+    | have failed. You may change them to any database.sqlite / table you wish.
     |
     */
 
     'failed' => [
-        'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
-        'database' => env('DB_CONNECTION', 'mysql'),
+        'driver' => env('QUEUE_FAILED_DRIVER', 'database.sqlite-uuids'),
+        'database.sqlite' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
 

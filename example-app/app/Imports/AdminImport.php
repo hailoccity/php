@@ -19,6 +19,7 @@ class AdminImport implements ToModel, WithHeadingRow
         return new Admin([
            "username" => $row["username"],
            "password" => Hash::make($row["password"]),
+           "phone" => $row["phone"],
         ]);
     }
 }

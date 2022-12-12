@@ -13,7 +13,7 @@ return [
     | requests. By default, we will use the lightweight native driver but
     | you may specify any of the other wonderful drivers provided here.
     |
-    | Supported: "file", "cookie", "database", "apc",
+    | Supported: "file", "cookie", "database.sqlite", "apc",
     |            "memcached", "redis", "dynamodb", "array"
     |
     */
@@ -66,9 +66,9 @@ return [
     | Session Database Connection
     |--------------------------------------------------------------------------
     |
-    | When using the "database" or "redis" session drivers, you may specify a
+    | When using the "database.sqlite" or "redis" session drivers, you may specify a
     | connection that should be used to manage these sessions. This should
-    | correspond to a connection in your database configuration options.
+    | correspond to a connection in your database.sqlite configuration options.
     |
     */
 
@@ -79,7 +79,7 @@ return [
     | Session Database Table
     |--------------------------------------------------------------------------
     |
-    | When using the "database" session driver, you may specify the table we
+    | When using the "database.sqlite" session driver, you may specify the table we
     | should use to manage the sessions. Of course, a sensible default is
     | provided for you; however, you are free to change this as needed.
     |
