@@ -35,9 +35,9 @@
                                     <th>Created By</th>
                                     <th>Category</th>
                                     <th>Total Comments
-                                        <a href=""><i class="fas fa-sort-down"></i></a>
-                                        <a href=""><i class="fas fa-sort-up"></i></a>
-                                        <a href=""><i class="fas fa-sort"></i></a>
+                                        <a href=""><i class="fa fa-sort-down"></i></a>
+                                        <a href=""><i class="fa fa-sort-up"></i></a>
+                                        <a href=""><i class="fa fa-sort"></i></a>
                                     </th>
                                     <th>Actions</th>
                                 </tr>
