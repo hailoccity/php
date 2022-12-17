@@ -12,5 +12,10 @@ class Category extends Model
 //    {
 //        return $this->belongsToMany('App\Tag');
 //    }
+    protected  $guarded = [];
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
     use HasFactory;
 }
