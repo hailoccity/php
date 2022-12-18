@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use SebastianBergmann\Diff\Line;
 
 class PostController extends Controller
@@ -16,6 +17,7 @@ class PostController extends Controller
      *
      * @return
      */
+
     public function index(Request $request)
     {
 //        $post_query = Post::withCount('comments')->where('user_id')->get();
@@ -40,7 +42,12 @@ class PostController extends Controller
         $data['posts'] = $post_query->get();
 //        dd($data['posts'][0]->image);
 //        dd($data['posts'][2]->comments);
-        return view('posts.index', $data);
+        if (Gate::allows('is-admin')){
+            return view('posts.index', $data);
+        } else{
+            abort(404);
+        }
+
     }
 
     /**
