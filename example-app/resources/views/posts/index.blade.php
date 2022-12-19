@@ -66,7 +66,12 @@
                                             <td  class="d-flex w-100 h-auto">
                                                 <a href="{{route('posts.show', $post->id)}}" class="btn btn-primary me-1">View</a>
                                                 <a href="{{route('posts.edit', $post->id)}}" class="btn btn-success me-1">Edit</a>
-                                                <a href="#" class="btn btn-danger">Delete</a>
+{{--                                                <form action="{{route('posts.destroy', $post->id)}}" method="POST">--}}
+{{--                                                    @csrf--}}
+{{--                                                    @method('delete')--}}
+{{--                                                    <button class="btn btn-danger mx-2" type="submit" onclick="return confirm('Do you really want to delete post !')">Delete</button>--}}
+{{--                                                </form>--}}
+                                                <a href="javascript:delete_post('{{route('posts.destroy', $post->id)}}')" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -75,22 +80,11 @@
                                         <td colspan="7">No posts found</td>
                                     </tr>
                                 @endif
-
-{{--                                <tr>--}}
-{{--                                    <td>2</td>--}}
-{{--                                    <td style="width: 35%">Title 2</td>--}}
-{{--                                    <td style="width: 10%"><img src="https://www.w3schools.com/html/img_chania.jpg" height="50" width="50" alt="ars"/></td>--}}
-{{--                                    <td>Ominext</td>--}}
-{{--                                    <td>Science</td>--}}
-{{--                                    <td class="text-center">4</td>--}}
-{{--                                    <td>--}}
-{{--                                        <a href="#" class="btn btn-primary me-1">View</a>--}}
-{{--                                        <a href="#" class="btn btn-success me-1">Edit</a>--}}
-{{--                                        <a href="#" class="btn btn-danger">Delete</a>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
                                 </tbody>
                             </table>
+                            <div class="d-flex justify-content-center">
+                                {{ $posts->links()}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,6 +93,10 @@
     </div>
     </div>
 @endsection
+<form id="post_delete" method="POST" action="">
+    @csrf
+    @method('delete')
+</form>
 @section("javascript")
 <script type="text/javascript">
     var query = <?php use Illuminate\Http\Request;echo json_encode((object)(new Illuminate\Http\Request)->query()); ?>;
@@ -110,6 +108,24 @@
         Object.assign(query, {"category": $('#category_filter').val()});
         Object.assign(query, {"keyword": $('#keyword').val()});
         window.location.href= "{{route('posts.index')}}?"+$.param(query);
+    }
+    function delete_post(url){
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $('#post_delete').attr('action',url);
+                $('#post_delete').submit();
+            }
+        });
     }
 </script>
 @endsection

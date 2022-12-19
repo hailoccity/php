@@ -24,5 +24,15 @@ class Post extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+    public function getTagsArray(){
+        $id_array = [];
+        if (count($this->tags)){
+            foreach ($this->tags as $tag){
+                $id_array[] = $tag->id;
+            }
+        }
+        return $id_array;
+
+    }
     use HasFactory;
 }

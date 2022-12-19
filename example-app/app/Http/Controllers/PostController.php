@@ -6,9 +6,9 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
-use SebastianBergmann\Diff\Line;
+
 
 class PostController extends Controller
 {
@@ -20,14 +20,8 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
-//        $post_query = Post::withCount('comments')->where('user_id')->get();
-//        if($request->sortByComments && in_array($request->sortByComments, ['asc', 'desc'])){
-//            $post_query->orderBy('comments_count', $request->sortByComments);
-//        }
         $data['categories'] = Category::orderBy('id', 'desc')->get();
-//        $post_query = Post::withCount('comments')->where('user_id', auth()->id());
         $post_query = Post::withCount('comments');
-//        dd($post_query);
         if($request->category){
             $post_query->whereHas('category', function ($q) use ($request){
                 $q->where('name', $request->category);
@@ -39,14 +33,12 @@ class PostController extends Controller
         if ($request->sortByComments && in_array($request->sortByComments, ['asc', 'desc'])){
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
-        $data['posts'] = $post_query->get();
-//        dd($data['posts'][0]->image);
-//        dd($data['posts'][2]->comments);
-        if (Gate::allows('is-admin')){
-            return view('posts.index', $data);
-        } else{
-            abort(404);
-        }
+        $data['posts'] = $post_query->paginate(8);
+//        if (Gate::allows('is-admin')){
+//            return view('posts.index', $data);
+//        } else{
+//            abort(404);
+//        }
 
     }
 
@@ -104,7 +96,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return $id;
+        $data['posts'] = $post = Post::findOrFail($id);
+        $this->authorize('view', $post);
+        return view('posts.show', $data);
     }
 
     /**
@@ -115,7 +109,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $data['posts'] = Post::findOrFail($id);
+        $data['posts'] = $post = Post::findOrFail($id);
+        $this->authorize('update', $post);
         $data['categories'] = Category::orderBy('id', 'desc')->get();
         $data['tags'] = Tag::orderBy('id', 'desc')->get();
         return view('posts.edit', $data);
@@ -126,21 +121,58 @@ class PostController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $this->authorize('update', $post);
+        $request->validate([
+            'title'=>'required|max:255',
+            'description'=>'required',
+            'image'=>'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'category'=>'required',
+            'tags'=>'required|array'
+        ],[
+            'category.required'=>'Please select a category',
+            'tags.required'=>'Please select atlest one tag'
+        ]);
+        if ($request->hasFile('image')){
+            $image = $request->file('image');
+            $image_name = time().'.'.$image->extension();
+            $image->move(public_path('post_image'), $image_name);
+            $old_path = public_path().'post_images/'.$post->image;
+            $request->image = $image_name;
+            if (File::exists($old_path)){
+                File::delete($old_path);
+            } else{
+                $image_name = $post->image;
+            }
+
+        }
+        $post->update([
+            'title'=>$request->title,
+            'description'=>$request->description,
+            'image'=>$request->image,
+            'user_id'=>auth()->id(),
+            'category_id'=>$request->category
+        ]);
+        $post->tags()->sync($request->tags);
+        return  redirect()->route('posts.index')->with('success', 'Post successfully updated');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->route('posts.index')->with('success', 'Post successfully deleted');
+
     }
 }

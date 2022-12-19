@@ -22,7 +22,7 @@
                         </div>
                         <div class="form-group required">
                             <label for="title">Description :</label>
-                            <input type="text" class="form-control" id="description" placeholder="Enter Description" name="description">
+                            <textarea type="" class="form-control" id="description" placeholder="Enter Description" name="description"></textarea>
                             @if($errors->any('description'))
                                 <span class="text-danger">{{$errors->first('description')}}</span>
                             @endif
