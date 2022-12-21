@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
@@ -20,20 +21,28 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
+
+        $this->authorize('viewAny',Post::class);
         $data['categories'] = Category::orderBy('id', 'desc')->get();
         $post_query = Post::withCount('comments');
+        $check = User::all();
+//        dd($check);
         if($request->category){
             $post_query->whereHas('category', function ($q) use ($request){
                 $q->where('name', $request->category);
             });
         }
+
         if ($request->keyword){
-            $post_query->where('title', 'LIKE', '%'.$request->keyword.'%');
+            $post_query->where('title', 'LIKE', '%'.$request->keyword.'%')->join('users', 'users.id', '=', 'posts.user_id')
+            ->orWhere('name', 'LIKE', '%'.$request->keyword.'%');
         }
-        if ($request->sortByComments && in_array($request->sortByComments, ['asc', 'desc'])){
+        if ($request->sortByComments && in_array($request->sortByComtagsments, ['asc', 'desc'])){
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
-        $data['posts'] = $post_query->paginate(8);
+        $data['posts'] = $post_query->where('is_deleted',0)->paginate(8);
+//        return $data;
+        return view('posts.index', $data);
 //        if (Gate::allows('is-admin')){
 //            return view('posts.index', $data);
 //        } else{
@@ -82,7 +91,8 @@ class PostController extends Controller
             'description'=>$request->description,
             'image'=>$request->image,
             'user_id'=>auth()->id(),
-            'category_id'=>$request->category
+            'category_id'=>$request->category,
+            'is_deleted' => 0
         ]);
         $post->tags()->sync($request->tags);
         return  redirect()->route('posts.index')->with('success', 'Post successfully created');
@@ -171,7 +181,10 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
-        $post->delete();
+        $this->authorize('delete', $post);
+        $post->is_deleted = 1;
+        $post->save();
+//        $post->delete();
         return redirect()->route('posts.index')->with('success', 'Post successfully deleted');
 
     }

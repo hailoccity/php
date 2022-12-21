@@ -36,7 +36,7 @@
                             <table style="width: 100%;" class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>#</th>
                                     <th>Title</th>
                                     <th>Image</th>
                                     <th>Created By</th>
@@ -55,16 +55,24 @@
                                 </thead>
                                 <tbody>
                                 @if(count($posts))
-                                    @foreach($posts as $post)
+                                    @foreach($posts as $key=>$post)
+{{--                                        @if($post->is_deleted == 0 ? $key : $key+1)--}}
                                         <tr>
-                                            <td>{{$post->id}}</td>
+                                            <td>{{$key}}</td>
                                             <td style="width: 35%">{{$post->title}}</td>
                                             <td ><img src="{{ URL::to('/') }}/post_image/{{$post->image}}" width="50" alt="ars"/></td>
                                             <td>{{$post->user->name}}</td>
                                             <td>{{$post->category->name}}</td>
                                             <td class="text-center">{{$post->comments_count}}</td>
                                             <td  class="d-flex w-100 h-auto">
+{{--                                                @can('view', $post)--}}
+{{--                                                    <a href="{{route('posts.show', $post->id)}}" class="btn btn-primary me-1">View</a>--}}
+{{--                                                @endcan--}}
+                                                @if(Auth::user()->can('view', $post))
                                                 <a href="{{route('posts.show', $post->id)}}" class="btn btn-primary me-1">View</a>
+                                                @else
+                                                    <a href="#" class="btn btn-primary me-1 disabled" >View</a>
+                                                @endif
                                                 <a href="{{route('posts.edit', $post->id)}}" class="btn btn-success me-1">Edit</a>
 {{--                                                <form action="{{route('posts.destroy', $post->id)}}" method="POST">--}}
 {{--                                                    @csrf--}}
@@ -74,6 +82,7 @@
                                                 <a href="javascript:delete_post('{{route('posts.destroy', $post->id)}}')" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
+{{--                                        @endif--}}
                                     @endforeach
                                 @else
                                     <tr>
@@ -112,7 +121,7 @@
     function delete_post(url){
         swal({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: "Are you really want to post !",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
