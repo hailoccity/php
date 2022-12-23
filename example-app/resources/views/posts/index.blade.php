@@ -3,7 +3,7 @@
 @section('content')
     <div class="container" xmlns="">
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
@@ -32,6 +32,15 @@
                                 @endif
                             </form>
                         </div>
+                        <div class="d-flex">
+                            <label for="optionselect" class="me-3">Chose Items</label>
+                            <select class=" text-center" style="width: 10%" id="optionselect" name="optionselect">
+                                <option value=""> </option>
+                                <option  value="{{3}}" >3</option>
+                                <option  value="{{5}}" >5</option>
+                                <option  value="{{7}}" >7</option>
+                            </select>
+                        </div>
                         <div class="table-responsive">
                             <table style="width: 100%;" class="table table-striped">
                                 <thead>
@@ -58,7 +67,7 @@
                                     @foreach($posts as $key=>$post)
 {{--                                        @if($post->is_deleted == 0 ? $key : $key+1)--}}
                                         <tr>
-                                            <td>{{$key}}</td>
+                                            <td>{{$key+1}}</td>
                                             <td style="width: 35%">{{$post->title}}</td>
                                             <td ><img src="{{ URL::to('/') }}/post_image/{{$post->image}}" width="50" alt="ars"/></td>
                                             <td>{{$post->user->name}}</td>
@@ -136,5 +145,24 @@
             }
         });
     }
+
+    {{--document.getElementById('pagination').onchange = function() {--}}
+    {{--    console.log('aaa')--}}
+    {{--    window.location = "{{ $posts->url(1) }}&sizes=" + this.value;--}}
+    {{--};--}}
+    {{--function filter_item() {--}}
+    {{--    console.log('aaa');--}}
+    {{--    Object.assign(query, {"size": $('#pagination').val()});--}}
+    {{--    window.location.href= "{{route('posts.index')}}?"+$.param(query);--}}
+    {{--}--}}
+    $(document) .ready(function() {
+        $("#optionselect").change(function () {
+            var values = $("#optionselect option:selected").val();
+            console.log(values);
+            // Object.assign(query, {"size": values});
+            // window.location.href = "{{route('posts.index')}}?" + $.param(query);
+        });
+    });
+
 </script>
 @endsection
