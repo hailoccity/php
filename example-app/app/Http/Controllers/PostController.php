@@ -40,9 +40,10 @@ class PostController extends Controller
         if ($request->sortByComments && in_array($request->sortByComtagsments, ['asc', 'desc'])){
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
-        $data['posts'] = $post_query->where('is_deleted',0)->paginate(8);
+        $items = $request->items ?? 5;
+        $data['posts'] = $post_query->where('is_deleted',0)->paginate($items);
 //        return $data;
-        return view('posts.index', $data);
+        return view('posts.index', $data)->withItems($items);
 //        if (Gate::allows('is-admin')){
 //            return view('posts.index', $data);
 //        } else{
