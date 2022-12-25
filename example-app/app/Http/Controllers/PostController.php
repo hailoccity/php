@@ -40,11 +40,13 @@ class PostController extends Controller
         if ($request->sortByComments && in_array($request->sortByComtagsments, ['asc', 'desc'])){
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
-        if($request->size){
-//            dd($request->size);
-            $post_query->where('is_deleted',0)->paginate($request->size);
-        }
-        $data['posts'] = $post_query->where('is_deleted',0)->paginate($request->size);
+//        if($request->size){
+////            dd($request->size);
+//            $post_query->where('is_deleted',0)->paginate($request->size);
+//        }
+        $size = $request->size ?? 2;
+        $data['posts'] = $post_query->where('is_deleted',0)->paginate($size);
+        $data['posts']->appends($request->all());
 //        return $data;
         return view('posts.index', $data);
 //        if (Gate::allows('is-admin')){

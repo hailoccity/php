@@ -36,9 +36,9 @@
                             <label for="optionselect" class="me-3">Chose Items</label>
                             <select class=" text-center" style="width: 10%" id="optionselect" name="optionselect">
                                 <option value=""> </option>
-                                <option  value="{{3}}" >3</option>
-                                <option  value="{{5}}" >5</option>
-                                <option  value="{{7}}" >7</option>
+                                <option  value="3" {{($_GET['size'] == 3) ? 'selected': ''}}>3</option>
+                                <option  value="5" {{($_GET['size'] == 5) ? 'selected': ''}} >5</option>
+                                <option  value="7" {{($_GET['size'] == 7) ? 'selected': ''}}>7</option>
                             </select>
                         </div>
                         <div class="table-responsive">
@@ -159,8 +159,8 @@
         $("#optionselect").change(function () {
             var values = $("#optionselect option:selected").val();
             console.log(values);
-            // Object.assign(query, {"size": values});
-            // window.location.href = "{{route('posts.index')}}?" + $.param(query);
+            Object.assign(query, {"size": values});
+            window.location.href = "{{route('posts.index')}}?" + $.param(query);
         });
     });
 
