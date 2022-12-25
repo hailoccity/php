@@ -16,10 +16,10 @@
                             <form class="d-flex align-items-center d-inline-flex" action="">
                                 <label class="me-3" for="category_filter">Filter By Category</label>
                                 <select class="form-control" id="category_filter" name="category">
-                                    <option value="">Select Category</option>
+                                    <option value="" selected="">Select Category</option>
                                     @if(count($categories))
                                         @foreach($categories as $category)
-                                            <option value="{{$category->name}}">{{$category->name}}</option>
+                                            <option value="{{$category->name}}" selected> {{$category->name}}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -125,6 +125,7 @@
     function search_post(){
         Object.assign(query, {"category": $('#category_filter').val()});
         Object.assign(query, {"keyword": $('#keyword').val()});
+        Object.assign(query, {"size": $('#optionselect').val()});
         window.location.href= "{{route('posts.index')}}?"+$.param(query);
     }
     function delete_post(url){

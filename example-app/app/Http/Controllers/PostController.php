@@ -23,10 +23,8 @@ class PostController extends Controller
     {
 
         $this->authorize('viewAny',Post::class);
-        $data['categories'] = Category::orderBy('id', 'desc')->get();
+        $data['categories'] = Category::orderBy('id', 'asc')->get();
         $post_query = Post::withCount('comments');
-        $check = User::all();
-//        dd($check);
         if($request->category){
             $post_query->whereHas('category', function ($q) use ($request){
                 $q->where('name', $request->category);
@@ -40,10 +38,7 @@ class PostController extends Controller
         if ($request->sortByComments && in_array($request->sortByComtagsments, ['asc', 'desc'])){
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
-//        if($request->size){
-////            dd($request->size);
-//            $post_query->where('is_deleted',0)->paginate($request->size);
-//        }
+
         $size = $request->size ?? 2;
         $data['posts'] = $post_query->where('is_deleted',0)->paginate($size);
         $data['posts']->appends($request->all());
