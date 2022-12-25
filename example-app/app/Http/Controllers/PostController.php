@@ -43,7 +43,7 @@ class PostController extends Controller
         $items = $request->items ?? 5;
         $data['posts'] = $post_query->where('is_deleted',0)->paginate($items);
 //        return $data;
-        return view('posts.index', $data)->withItems($items);
+        return view('posts.index', $data);
 //        if (Gate::allows('is-admin')){
 //            return view('posts.index', $data);
 //        } else{

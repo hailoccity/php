@@ -36,12 +36,15 @@
                             <label class="me-2" id="item" for="item">Chose Items</label>
                             <form>
                                 <select id="pagination" class="form-select text-center" style="width: 70px" aria-label="Default select example">
-                                    <option value="3" @if($items == 3) selected @endif>3</option>
-                                    <option value="5" @if($items == 5) selected @endif>5</option>
-                                    <option value="10" @if($items == 10) selected @endif>10</option>
-                                    <option value="20" @if($items == 20) selected @endif>20</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                    <option value="10" >10</option>
+                                    <option value="20" >20</option>
                                 </select>
                             </form>
+                            <div class="ms-3">
+                                <a href="{{route('expenses.index')}}">Show Data Type Chart</a>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table style="width: 80%; margin-left: 10%" class="table table-striped">
@@ -147,11 +150,6 @@
             }
         });
     }
-    {{--document.getElementById('pagination').onchange = function() {--}}
-    {{--    window.location = "{{ $posts->url(1) }}&items=" + this.value;--}}
-    {{--};--}}
-    $( "#pagination" ).change(function() {
-        alert( "Handler for .change() called." );
-    });
+
 </script>
 @endsection

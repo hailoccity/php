@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExpensesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,9 @@ Route::get('/admin', [App\Http\Controllers\HomeController::class, 'admin'])->nam
 //Route::get('/test', function (){
 //    return "<h2>Hello</h2>";
 //});
+Route::get('/expenses', [ExpensesController::class, 'index'])->name('expenses.index');
+
+
 Route::get('posts',[\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
 Route::get('posts/create', [\App\Http\Controllers\PostController::class, 'create'])->name('posts.create');
 Route::post('/posts/store', [\App\Http\Controllers\PostController::class, 'store'])->name('posts.store');
