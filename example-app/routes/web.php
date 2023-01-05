@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/admin', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin');
 
+
+
 //Route::get('/test', function (){
 //    return "<h2>Hello</h2>";
 //});
@@ -32,3 +35,9 @@ Route::get('/posts/{id}', [\App\Http\Controllers\PostController::class, 'show'])
 Route::get('posts/{id}/edit', [\App\Http\Controllers\PostController::class, 'edit'])->name('posts.edit');
 Route::put('/posts/{id}/update', [\App\Http\Controllers\PostController::class, 'update'])->name('posts.update');
 Route::delete('/posts/{id}/destroy', [\App\Http\Controllers\PostController::class, 'destroy'])->name('posts.destroy');
+
+
+Route::get('/test', [PostController::class, 'index_query']);
+Route::get('/test/{id}', [PostController::class, 'get_index_id']);
+
+

@@ -27,8 +27,6 @@ class PostPolicy
      */
     public function viewAny(User $user)
     {
-//        dd($user);
-//        return ($user->id);
         return $user->id;
     }
 

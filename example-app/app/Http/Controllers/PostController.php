@@ -7,6 +7,8 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,12 +20,27 @@ class PostController extends Controller
      *
      * @return
      */
+    public function index_query()
+    {
+        $data = Post::all();
+        return $data;
 
+    }
     public function index(Request $request)
     {
 
         $this->authorize('viewAny',Post::class);
         $data['categories'] = Category::orderBy('id', 'asc')->get();
+        $data['test'] = DB::table('posts')
+            ->join('users', 'users.id', '=', 'posts.user_id')
+//            ->join('categories','categories.id', '=' , 'posts.category_id')
+            ->where([
+                ['users.is_admin', 1],
+                ['is_deleted', 0],
+                ])
+            ->select('users.name')
+//            ->addSelect('categories.id')
+            ->get();
         $post_query = Post::withCount('comments');
         if($request->category){
             $post_query->whereHas('category', function ($q) use ($request){
@@ -35,15 +52,21 @@ class PostController extends Controller
             $post_query->where('title', 'LIKE', '%'.$request->keyword.'%')->join('users', 'users.id', '=', 'posts.user_id')
             ->orWhere('name', 'LIKE', '%'.$request->keyword.'%');
         }
+//        dd($data);
         if ($request->sortByComments && in_array($request->sortByComtagsments, ['asc', 'desc'])){
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
 
         $size = $request->size ?? 2;
+
         $data['posts'] = $post_query->where('is_deleted',0)->paginate($size);
         $data['posts']->appends($request->all());
-//        return $data;
-        return view('posts.index', $data);
+        return response()->json([
+            'status' => Response::HTTP_OK,
+            'data' => $data['test'],
+        ]);
+
+//        return view('posts.index', $data);
 //        if (Gate::allows('is-admin')){
 //            return view('posts.index', $data);
 //        } else{
