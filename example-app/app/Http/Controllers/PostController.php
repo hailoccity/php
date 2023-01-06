@@ -28,8 +28,7 @@ class PostController extends Controller
     }
     public function index(Request $request)
     {
-
-        $this->authorize('viewAny',Post::class);
+//        $this->authorize('viewAny',Post::class);
         $data['categories'] = Category::orderBy('id', 'asc')->get();
         $data['test'] = DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.user_id')
@@ -132,7 +131,8 @@ class PostController extends Controller
     {
         $data['posts'] = $post = Post::findOrFail($id);
         $this->authorize('view', $post);
-        return view('posts.show', $data);
+        return $data['posts'];
+//        return view('posts.show', $data);
     }
 
     /**
