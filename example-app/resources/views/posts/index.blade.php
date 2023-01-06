@@ -45,6 +45,9 @@
                             <div class="ms-3">
                                 <a href="{{route('expenses.index')}}">Show Data Type Chart</a>
                             </div>
+                            <div class="ms-3 ms-auto">
+                                <a href="{{route('emails.index')}}" class="btn btn-info">Write to Email</a>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table style="width: 80%; margin-left: 10%" class="table table-striped">
@@ -72,7 +75,7 @@
                                     @foreach($posts as $key=>$post)
 {{--                                        @if($post->is_deleted == 0 ? $key : $key+1)--}}
                                         <tr>
-                                            <td>{{$key}}</td>
+                                            <td>{{$key+1}}</td>
                                             <td style="width: 35%">{{$post->title}}</td>
                                             <td ><img src="{{ URL::to('/') }}/post_image/{{$post->image}}" width="50" alt="ars"/></td>
                                             <td>{{$post->user->name}}</td>
