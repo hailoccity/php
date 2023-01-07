@@ -18,10 +18,10 @@ class SendEmail extends Mailable
      *
      * @return void
      */
-    public $data;
-    public function __construct($data)
+    public $mailData;
+    public function __construct($mailData)
     {
-        $this->data = $data;
+        $this->mailData = $mailData;
     }
 
     /**
@@ -32,20 +32,21 @@ class SendEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Send Email',
+            subject: $this->mailData['subject']
         );
     }
 
     /**
      * Get the message content definition.
      *
-     * @return SendEmail
+     * @return Content
      */
-    public function content()
+    public function content(): Content
     {
-        return $this->from('hieu.ld@gmail.com','Le Doan Hieu')
-            ->subject($this->data['subject'])
-            ->view('emails.index')->with('data', $this->data);
+        return new Content(
+           view: 'emails.demoMail',
+        );
+
     }
 
     /**

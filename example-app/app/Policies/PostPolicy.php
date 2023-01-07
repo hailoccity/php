@@ -13,6 +13,7 @@ class PostPolicy
 
     public function before($user, $ability)
     {
+
         if ($user->is_admin == 1) {
             return true;
         }
@@ -27,8 +28,6 @@ class PostPolicy
      */
     public function viewAny(User $user)
     {
-//        dd($user);
-//        return ($user->id);
         return $user->id;
     }
 

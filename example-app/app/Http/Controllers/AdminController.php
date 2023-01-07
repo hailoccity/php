@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\AdminExport;
 use App\Imports\AdminImport;
 use App\Models\Admin;
+use App\Models\Post;
+use App\Resource\AdminResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +16,10 @@ use Maatwebsite\Excel\Facades\Excel;
 class AdminController extends Controller
 {
     public function index(){
-        $users = DB::table('admins')->get();
+        $users = Admin::all();
+//        dd(AdminResource::collection($users));
+
+//        return new AdminResource($users);
         return view("import", compact("users"));
     }
     public function store(Request $request){

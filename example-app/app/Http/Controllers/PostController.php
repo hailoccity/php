@@ -22,11 +22,8 @@ class PostController extends Controller
     public function index(Request $request)
     {
 
-        $this->authorize('viewAny',Post::class);
         $data['categories'] = Category::orderBy('id', 'desc')->get();
         $post_query = Post::withCount('comments');
-        $check = User::all();
-//        dd($check);
         if($request->category){
             $post_query->whereHas('category', function ($q) use ($request){
                 $q->where('name', $request->category);
@@ -41,8 +38,8 @@ class PostController extends Controller
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
         $items = $request->items ?? 5;
+//        $data['posts'] = Post::all();
         $data['posts'] = $post_query->where('is_deleted',0)->paginate($items);
-//        return $data;
         return view('posts.index', $data);
 //        if (Gate::allows('is-admin')){
 //            return view('posts.index', $data);
@@ -107,8 +104,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $data['posts'] = $post = Post::findOrFail($id);
-        $this->authorize('view', $post);
+        $data['posts'] = Post::findOrFail($id);
+//        $this->authorize('view', $post);
+//        return $post;
         return view('posts.show', $data);
     }
 

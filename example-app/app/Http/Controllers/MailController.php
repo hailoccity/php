@@ -3,22 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SendEmail;
-use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
     public function index(){
-        $data = [
-            'subject'=>'Hieu LD',
-            'body'=>'Happy New Year'
+        $mailData  = [
+            'title'=>'Hieu LD',
+            'body'=>'Happy New Year',
+            'subject'=>'Send Email Test'
         ];
-        try {
-            Mail::to('ledoanhieu1997@gmail.com')->send(new SendEmail($data));
-            return response()->json(['Successfully']);
-        } catch (Exception $exception){
-            return response()->json(['Error']);
-        }
+//        dd(($mailData));
+        Mail::to('ledoanhieu1997@gmail.com')->send(new SendEmail($mailData));
+        dd('Ok');
     }
 }
