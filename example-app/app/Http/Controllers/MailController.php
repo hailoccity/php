@@ -17,4 +17,7 @@ class MailController extends Controller
         Mail::to('ledoanhieu1997@gmail.com')->send(new SendEmail($mailData));
         dd('Ok');
     }
+    public function show(){
+        return view('emails.show');
+    }
 }

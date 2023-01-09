@@ -22,7 +22,7 @@
                 <div class="card-body">
 
                     Email
-                    <p>{{$data['body']}}</p>
+                    <h2>Ominext</h2>
 
                 </div>
             </div>

@@ -38,14 +38,9 @@ class PostController extends Controller
             $post_query->orderBy('comments_count', $request->sortByComments);
         }
         $items = $request->items ?? 5;
-//        $data['posts'] = Post::all();
         $data['posts'] = $post_query->where('is_deleted',0)->paginate($items);
+//        return $data['posts'];
         return view('posts.index', $data);
-//        if (Gate::allows('is-admin')){
-//            return view('posts.index', $data);
-//        } else{
-//            abort(404);
-//        }
 
     }
 

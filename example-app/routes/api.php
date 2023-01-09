@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,19 +14,27 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [\App\Http\Controllers\AuthController::class, 'sigin']);
+Route::post('register', [\App\Http\Controllers\AuthController::class, 'signup']);
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('posts', PostController::class);
+    Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
-Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
-Route::post('/admin', [\App\Http\Controllers\AdminController::class, 'store']);
-Route::delete('/admin/{id}', [\App\Http\Controllers\AdminController::class, 'delete']);
-Route::get('/admin/{id}', [\App\Http\Controllers\AdminController::class, 'show']);
-Route::put('/admin/{id}', [\App\Http\Controllers\AdminController::class, 'edit']);
-Route::post('/teacher', [\App\Http\Controllers\TeacherController::class, 'store']);
-Route::post('/course', [\App\Http\Controllers\CourseController::class, 'store']);
-Route::get('/course', [\App\Http\Controllers\CourseController::class, 'index']);
-Route::get('/export', [\App\Http\Controllers\AdminController::class, 'export']);
-Route::post('/import' ,[\App\Http\Controllers\AdminController::class, 'import']);
 
-Route::get('posts',[\App\Http\Controllers\PostController::class, 'index'])->middleware('role');
+
+//
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+Route::get('/users', [\App\Http\Controllers\User\UserController::class, 'index']);
+Route::post('/users', [\App\Http\Controllers\User\UserController::class, 'store']);
+Route::delete('/users/{id}', [\App\Http\Controllers\User\UserController::class, 'delete']);
+Route::get('/users/{id}', [\App\Http\Controllers\User\UserController::class, 'show']);
+Route::put('/users/{id}', [\App\Http\Controllers\User\UserController::class, 'edit']);
+//Route::post('/teacher', [\App\Http\Controllers\TeacherController::class, 'store']);
+//Route::post('/course', [\App\Http\Controllers\CourseController::class, 'store']);
+//Route::get('/course', [\App\Http\Controllers\CourseController::class, 'index']);
+//Route::get('/export', [\App\Http\Controllers\AdminController::class, 'export']);
+//Route::post('/import' ,[\App\Http\Controllers\AdminController::class, 'import']);
+
+

@@ -6,7 +6,7 @@ use App\Exports\AdminExport;
 use App\Imports\AdminImport;
 use App\Models\Admin;
 use App\Models\Post;
-use App\Resource\AdminResource;
+use App\Resource\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,10 +17,11 @@ class AdminController extends Controller
 {
     public function index(){
         $users = Admin::all();
-//        dd(AdminResource::collection($users));
+//        dd(UserResource::collection($users));
 
-//        return new AdminResource($users);
-        return view("import", compact("users"));
+//        return new UserResource($users);
+        return $users;
+//        return view("import", compact("users"));
     }
     public function store(Request $request){
 

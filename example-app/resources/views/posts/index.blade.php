@@ -46,7 +46,7 @@
                                 <a href="{{route('expenses.index')}}">Show Data Type Chart</a>
                             </div>
                             <div class="ms-3 ms-auto">
-                                <a href="{{route('emails.index')}}" class="btn btn-info">Write to Email</a>
+                                <a href="{{route('emails.show')}}" class="btn btn-info">Write to Email</a>
                             </div>
                         </div>
                         <div class="table-responsive">
