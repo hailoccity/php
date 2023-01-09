@@ -3,21 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SendEmail;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
-    public function index(){
+    public function send(Request $request){
+        $request->validate([
+            'recipient' => 'required | email',
+            'subject' => 'required | max:255',
+            'contents' => 'required',
+        ]);
         $mailData  = [
-            'title'=>'Hieu LD',
-            'body'=>'Happy New Year',
-            'subject'=>'Send Email Test'
+            'title'=>$request->title,
+            'contents'=>$request->contents,
+            'subject'=>$request->subject,
         ];
-//        dd(($mailData));
-        Mail::to('ledoanhieu1997@gmail.com')->send(new SendEmail($mailData));
-        dd('Ok');
+        $recipient = $request->recipient;
+        Mail::to($recipient)->send(new SendEmail($mailData));
+        return  redirect()->route('emails.show')->with('success', 'Email sent successfully');
     }
     public function show(){
         return view('emails.show');
     }
+
 }

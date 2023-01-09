@@ -1,13 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Email</title>
-</head>
-<body>
+@extends('layouts.app')
+@section('content')
 
 <div class="container">
     <div class="row justify-content-center">
@@ -15,14 +7,26 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <h2>Detail Post</h2>
+                        <h2>Write Email</h2>
                         <div><a href="{{route('posts.index')}}" class="btn btn-success">Back</a></div>
                     </div>
                 </div>
                 <div class="card-body">
-
-                    Email
-                    <h2>Show</h2>
+                    <form action="{{route('emails.demoMail')}}">
+                        <div class="form-control">
+                            <label class="me-2">Người Nhận</label>
+                            <input type="text" name="recipient" class="rounded-2"/>
+                        </div>
+                        <div class="form-control">
+                            <label class="me-2">Chủ Đề</label>
+                            <input type="text" name="subject" class="rounded-2"/>
+                        </div>
+                        <div class="form-control">
+                            <label>Chủ Đề</label>
+                            <textarea type="" class="form-control" style="width: 100%; height: 300px" id="contents" placeholder="Write Content" name="contents"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Send</button>
+                    </form>
 
                 </div>
             </div>
@@ -30,5 +34,4 @@
     </div>
 </div>
 
-</body>
-</html>
+@endsection

@@ -28,7 +28,7 @@ Route::get('/admin', [App\Http\Controllers\HomeController::class, 'admin'])->nam
 //});
 Route::get('/expenses', [ExpensesController::class, 'index'])->name('expenses.index');
 
-Route::get('/email/send', [\App\Http\Controllers\MailController::class, 'index']);
+Route::get('/email/send', [\App\Http\Controllers\MailController::class, 'send'])->name('emails.demoMail');
 Route::get('/email/show', [\App\Http\Controllers\MailController::class, 'show'])->name('emails.show');
 
 Route::get('posts',[\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
