@@ -1,0 +1,13 @@
+input{
+    outline: none;
+    overflow: visible;
+    width: 100%;
+    text-align: left;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid #1a1e21;
+    font-size: 14px;
+    padding-left: 0;
+    height: 45px;
+    margin-bottom: 30px;
+}
