@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\NewJob;
 use App\Mail\SendEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -18,9 +19,11 @@ class MailController extends Controller
             'title'=>$request->title,
             'contents'=>$request->contents,
             'subject'=>$request->subject,
+            'recipient' => $request->recipient,
         ];
-        $recipient = $request->recipient;
-        Mail::to($recipient)->send(new SendEmail($mailData));
+//        $recipient = $request->recipient;
+//        Mail::to($recipient)->send(new SendEmail($mailData));
+        NewJob::dispatch($mailData);
         return  redirect()->route('emails.show')->with('success', 'Email sent successfully');
     }
     public function show(){
