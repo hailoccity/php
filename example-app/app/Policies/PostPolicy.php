@@ -78,7 +78,13 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return  $user->id === $post->user_id;
+        $confirm_auth = $user->id === $post->user_id;
+        if ($confirm_auth == true){
+            return $confirm_auth;
+        } else{
+            return Response::deny('Ban khong co quyen xoa');
+        }
+//        return  $user->id === $post->user_id;
     }
 
     /**

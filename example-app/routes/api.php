@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-Route::get('/users', [\App\Http\Controllers\User\UserController::class, 'index']);
+Route::get('/users', [\App\Http\Controllers\User\UserController::class, 'index'])->middleware('role');
 Route::post('/users', [\App\Http\Controllers\User\UserController::class, 'store']);
 Route::delete('/users/{id}', [\App\Http\Controllers\User\UserController::class, 'delete']);
 Route::get('/users/{id}', [\App\Http\Controllers\User\UserController::class, 'show']);
