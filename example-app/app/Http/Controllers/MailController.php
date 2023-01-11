@@ -23,7 +23,7 @@ class MailController extends Controller
         ];
 //        $recipient = $request->recipient;
 //        Mail::to($recipient)->send(new SendEmail($mailData));
-        NewJob::dispatch($mailData);
+        NewJob::dispatch($mailData)->delay(now()->addSeconds(20));
         return  redirect()->route('emails.show')->with('success', 'Email sent successfully');
     }
     public function show(){
