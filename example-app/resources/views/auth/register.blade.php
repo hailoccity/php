@@ -74,7 +74,7 @@
                                 <label for="is_admin" class="col-md-4 col-form-label text-md-end">{{ __('Is_admin') }}</label>
 
                                 <div class="col-md-6">
-                                    <input type="checkbox" name="is_admin" value="1" {{ old('is_admin') ? 'checked="checked"' : '' }}/>
+                                    <input type="checkbox" name="is_admin" value="{{$is_admin}}" {{ old('is_admin') ? 'checked="checked"' : '' }}/>
                                 </div>
                             </div>
 
